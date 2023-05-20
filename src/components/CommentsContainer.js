@@ -3,7 +3,7 @@ import React from 'react'
 
 const commentsData = [
   {
-    name:"Prashant Shinde",
+    name:"Prashant S Shinde",
     text:"Lorem Ipsum is simply dummy text of the printing and typesetting industry",
     replies:[],
   },
