@@ -30,6 +30,7 @@ const Head = () => {
   return ()  => {
      
     clearTimeout(timer);
+    getSearchSuggestions();
   };
   
   },[searchQuery,suggestions,showSuggestions]);
