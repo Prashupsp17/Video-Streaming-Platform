@@ -5,7 +5,7 @@ import Head from './components/Head';
 import Body from './components/Body';
 import store from './utils/store';
 import MainContainer from "./components/MainContainer";
-import {BrowserRouter, createBrowserRouter, RouterProvider} from "react-router-dom";
+import { createBrowserRouter, RouterProvider} from "react-router-dom";
 import WatchPage from './components/WatchPage';
 
 
