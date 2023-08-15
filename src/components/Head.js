@@ -49,9 +49,10 @@ if (searchCache[searchQuery]) {
 return () => {
    
   clearTimeout(timer);
+  getSearchSuggestions();
 
 };
-},[searchQuery,searchCache,showSuggestions]);
+},[searchQuery,searchCache,showSuggestions,dispatch]);
   
   const toggleMenuHandler = () => {
   dispatch(toggleMenu());
