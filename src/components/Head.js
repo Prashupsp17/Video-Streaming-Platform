@@ -13,27 +13,7 @@ const Head = () => {
   const searchCache = useSelector((store) => store.search );
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    //API Call
-   //make an api call after every key press
-  //but if the difference between 2APIs calls is <200ms
-  //decline the API call
-
- const timer =  setTimeout(() => {
-  if (searchCache[searchQuery]) {
-    setSuggestions(searchCache[searchQuery]);
-   } else {
-    getSearchSuggestions();
-   }
- },200);
-
-  return ()  => {
-     
-    clearTimeout(timer);
-    getSearchSuggestions();
-  };
-  
-  },[searchQuery,suggestions,showSuggestions]);
+ 
 
   const getSearchSuggestions = async () => {
     
@@ -52,6 +32,27 @@ const Head = () => {
   );
 };
 
+useEffect(() => {
+  //API Call
+ //make an api call after every key press
+//but if the difference between 2APIs calls is <200ms
+//decline the API call
+
+const timer =  setTimeout(() => {
+if (searchCache[searchQuery]) {
+  setSuggestions(searchCache[searchQuery]);
+ } else {
+  getSearchSuggestions();
+ }
+},200);
+
+return ()  => {
+   
+  clearTimeout(timer);
+
+};
+getSearchSuggestions();
+},[searchQuery]);
   
   const toggleMenuHandler = () => {
   dispatch(toggleMenu());
