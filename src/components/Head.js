@@ -51,8 +51,7 @@ return ()  => {
   clearTimeout(timer);
 
 };
-getSearchSuggestions();
-},[searchQuery]);
+},[searchQuery,searchCache]);
   
   const toggleMenuHandler = () => {
   dispatch(toggleMenu());
