@@ -13,7 +13,7 @@ const WatchPage = () => {
 
   useEffect(() => {
     dispatch( closeMenu());
-  }, [searchParams]);
+  }, [dispatch]);
   return (
     <>
     <div className='flex flex-col w-full'> 
