@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useCallback  } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleMenu } from '../utils/appSlice';
 import {YOUTUBE_SEARCH_API} from  '../utils/contants';
@@ -15,44 +15,73 @@ const Head = () => {
 
  
 
-  const getSearchSuggestions = async () => {
+//   const getSearchSuggestions = async () => {
     
-  console.log("API CALL - " + searchQuery);
-      const data = await fetch(YOUTUBE_SEARCH_API+ searchQuery);
-      const json = await data.json();
-      // console.log(json[1]);
-      setSuggestions(json[1]);
+//   console.log("API CALL - " + searchQuery);
+//       const data = await fetch(YOUTUBE_SEARCH_API+ searchQuery);
+//       const json = await data.json();
+//       // console.log(json[1]);
+//       setSuggestions(json[1]);
  
 
-  //Update Cache
+//   //Update Cache
+//   dispatch(
+//     cacheResults({
+//      [searchQuery] : json[1],
+//   })
+//   );
+// };
+const getSearchSuggestions = useCallback(async () => {
+  console.log("API CALL - " + searchQuery);
+  const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
+  const json = await data.json();
+  setSuggestions(json[1]);
+
+  // Update Cache
   dispatch(
     cacheResults({
-     [searchQuery] : json[1],
-  })
+      [searchQuery]: json[1],
+    })
   );
-};
+}, [searchQuery, dispatch]);
 
 useEffect(() => {
-  //API Call
- //make an api call after every key press
-//but if the difference between 2APIs calls is <200ms
-//decline the API call
+  // API Call
+  const timer = setTimeout(() => {
+    if (searchCache[searchQuery]) {
+      setSuggestions(searchCache[searchQuery]);
+    } else {
+      getSearchSuggestions();
+    }
+  }, 200);
 
-const timer =  setTimeout(() => {
-if (searchCache[searchQuery]) {
-  setSuggestions(searchCache[searchQuery]);
- } else {
-  getSearchSuggestions();
- }
-},200);
+  return () => {
+    clearTimeout(timer);
+    getSearchSuggestions();
+  };
+}, [searchQuery, searchCache, showSuggestions, dispatch, getSearchSuggestions]);
 
-return () => {
+// useEffect(() => {
+//   //API Call
+//  //make an api call after every key press
+// //but if the difference between 2APIs calls is <200ms
+// //decline the API call
+
+// const timer =  setTimeout(() => {
+// if (searchCache[searchQuery]) {
+//   setSuggestions(searchCache[searchQuery]);
+//  } else {
+//   getSearchSuggestions();
+//  }
+// },200);
+
+// return () => {
    
-  clearTimeout(timer);
-  getSearchSuggestions();
+//   clearTimeout(timer);
+//   getSearchSuggestions();
 
-};
-},[searchQuery,searchCache,showSuggestions,dispatch]);
+// };
+// },[searchQuery,searchCache,showSuggestions,dispatch,getSearchSuggestions]);
   
   const toggleMenuHandler = () => {
   dispatch(toggleMenu());

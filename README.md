@@ -98,6 +98,7 @@ time complexity tro search in array = O(1)
     iph:
     iphone:
 }
+test
 
 new Map();
 or 
